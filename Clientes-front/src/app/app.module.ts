@@ -5,15 +5,19 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
-import { ClienteComponent } from './cliente/cliente.component';
-import { ClienteService } from './cliente/cliente.service';
+import { ClienteComponent } from './clientes/cliente.component';
+import { ClienteService } from './clientes/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule} from '@angular/common/http';
+import { FormComponent } from './clientes/form.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/cliente', pathMatch: 'full'},
+  {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
-  {path: 'cliente', component: ClienteComponent}
+  {path: 'clientes', component: ClienteComponent}, 
+  {path: 'clientes/form', component: FormComponent}, 
+  {path: 'clientes/form/:id', component: FormComponent}
 ];
 
 @NgModule({
@@ -22,11 +26,13 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     DirectivaComponent,
-    ClienteComponent
+    ClienteComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule, 
+    FormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],
