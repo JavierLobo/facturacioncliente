@@ -4,7 +4,9 @@ import { Cliente } from './Cliente';
 import { TitleBar } from './TitleBar';
 import { TITLEBAR } from './TitleBar.json';
 import { CLIENTES } from './clientes.json';
+import { tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cliente',
@@ -17,16 +19,34 @@ export class ClienteComponent implements OnInit {
   titleBar: TitleBar[];
   clientes: Cliente[];
   
-  constructor(private clienteService: ClienteService) { }
+  paginador: any;
+
+  constructor(private clienteService: ClienteService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.clienteService.getClientes().subscribe(
-      clientes => this.clientes = clientes
-    );
-    
-    this.clienteService.getTitleBar().subscribe(
-      titlebar => this.titleBar = TITLEBAR
-    );
+    this.activatedRoute.paramMap.subscribe( params => {
+      let page: number = +params.get('page');
+      if (!page) { page = 0; }
+
+      this.clienteService.getClientes(page)
+        .pipe(
+          tap( response => {
+            console.log('ClientesComponet: tap 3');
+            (response.content as Cliente[]).forEach( cliente => {
+              console.log(cliente.nombre);
+            });
+          })
+        ).subscribe( response => {
+          this.clientes = response.content as Cliente[];
+          this.paginador = response;
+        });
+
+    });
+
+//    this.clienteService.getTitleBar().subscribe(
+//      titlebar => this.titleBar = TITLEBAR
+//    );
   }
 
   delete(cliente: Cliente): void {
