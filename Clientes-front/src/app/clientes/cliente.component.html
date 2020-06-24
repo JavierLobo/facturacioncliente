@@ -8,9 +8,9 @@
       </div>
 
       <div class="alert alert-info"
-        *ngIf="clientes?.length == 0">No hay registros en la base de datos      
+        *ngIf="clientes?.length == 0">No hay registros en la base de datos!!
       </div>
-
+      <paginator-nav></paginator-nav>
       <table class="table table-bordered table-stripped" *ngIf="clientes?.length > 0">
           <thead>
             <tr *ngFor="let title of titleBar">
@@ -19,7 +19,8 @@
                 <th>{{ title.apellido }}</th>
                 <th>{{ title.email }}</th>
                 <th>{{ title.createAt }}</th>
-                <th>{{ title.acciones }}</th>
+                <th>{{ title.editar }}</th>
+                <th>{{ title.eliminar }}</th>
               </tr>
             </thead> 
             <tbody>
@@ -34,11 +35,12 @@
                         [routerLink]="['/clientes/form', cliente.id]">Editar</button>
                     </td>
                     <td>
-                      <button type="button" name="eliminar" class="btn btn-danger btn-sm"
-                        (click)='delete(cliente)'>Eliminar</button>
+                      <button type="button" name="eliminar" class="btn btn-danger"
+                        (click)='delete(cliente)'>X</button>
                     </td>
                 </tr>
             </tbody>
       </table>
+      <paginator-nav></paginator-nav>
     </div>
   </div>
