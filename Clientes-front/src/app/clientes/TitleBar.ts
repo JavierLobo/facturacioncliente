@@ -4,5 +4,6 @@ export class TitleBar {
     apellido: string;
     email: string;
     createAt: string;
-    acciones: string;
+    editar: string;
+    eliminar: string;
 }
