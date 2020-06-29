@@ -43,23 +43,26 @@ public class ClienteEntity implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
+	private String foto;
+	
 //	@PrePersist
 //	public void prePersist() {
 //		this.createAt = new Date();
 //	}
-	
+
 	public ClienteEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ClienteEntity(Long id, String nombre, String apellido, String email, Date createAt) {
+	public ClienteEntity(Long id, String nombre, String apellido, String email, Date createAt, String foto) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
 		this.createAt = createAt;
+		this.foto = foto;
 	}
 	
 	public Long getId() {
@@ -100,6 +103,14 @@ public class ClienteEntity implements Serializable {
 	
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	/**
