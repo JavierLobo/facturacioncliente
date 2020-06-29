@@ -12,9 +12,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 import javax.validation.Valid;
 
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -45,6 +46,8 @@ import com.javierlobo.clientes.persistence.entity.ClienteEntity;
 @RequestMapping("/api")
 public class CrudClientesResource {
 
+	private final Logger log = (Logger) LoggerFactory.logger(CrudClientesResource.class);
+	
 	@Autowired
 	private ICrudClienteService crudClienteService;
 
@@ -169,7 +172,7 @@ public class CrudClientesResource {
 			String nombreArchivo =UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
 			
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-			
+			log.info(rutaArchivo.toString());
 			try {
 				Files.copy(archivo.getInputStream(), rutaArchivo);
 				
@@ -193,12 +196,11 @@ public class CrudClientesResource {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	// METODOS PRIVADOS
-	// ---------------------------------------------
-	
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+		log.info(rutaArchivo.toString());
+
 		Resource recurso = null;
 		
 		try {
@@ -219,6 +221,9 @@ public class CrudClientesResource {
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.CREATED);
 	}
 	
+	// ---------------------------------------------
+	// METODOS PRIVADOS
+	// ---------------------------------------------
 	
 	
 	/**
