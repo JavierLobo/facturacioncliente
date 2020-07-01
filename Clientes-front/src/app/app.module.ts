@@ -15,7 +15,7 @@ import { FormComponent } from './clientes/form.component';
 import { ClienteComponent } from './clientes/cliente.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 
-import { MatDatepickerModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import localeES from '@angular/common/locales/es';
@@ -26,9 +26,9 @@ registerLocaleData(localeES, 'es');
 const routes: Routes = [
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   {path: 'directivas', component: DirectivaComponent},
-  {path: 'clientes', component: ClienteComponent}, 
-  {path: 'clientes/page/:page', component: ClienteComponent}, 
-  {path: 'clientes/form', component: FormComponent}, 
+  {path: 'clientes', component: ClienteComponent},
+  {path: 'clientes/page/:page', component: ClienteComponent},
+  {path: 'clientes/form', component: FormComponent},
   {path: 'clientes/form/:id', component: FormComponent}
 ];
 
