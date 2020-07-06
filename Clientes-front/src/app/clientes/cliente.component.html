@@ -16,8 +16,8 @@
       <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
 
       <table class="table table-bordered table-stripped" *ngIf="clientes?.length > 0">
-          <thead>
-            <tr *ngFor="let title of titleBar">
+            <thead>
+              <tr *ngFor="let title of titleBar">
                 <th>{{ title.id }}</th>
                 <th>{{ title.nombre }}</th>
                 <th>{{ title.apellido }}</th>
@@ -29,8 +29,15 @@
             </thead> 
             <tbody>
                 <tr *ngFor="let cliente of clientes">
-                    <td><button (click)="abrirModal(cliente)"
-                          class="btn btn-success btn-sm">{{ cliente.id }}</button></td>
+                    <td>
+                      <img (click)="abrirModal(cliente)" *ngIf="cliente?.foto" 
+                            src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}" 
+                            class="img-thumbnail rounded" style="width: 64px; cursor:pointer;">
+
+                      <img (click)="abrirModal(cliente)" *ngIf="!cliente?.foto" 
+                            src="http://localhost:8080/images/notUser64x64.png" 
+                            alt="{{cliente.foto}}" class="img-thumbnail rounded" style="width: 64px; cursor:pointer;">
+                    </td>
                     <td>{{ cliente.nombre }}</td>
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.email }}</td>
