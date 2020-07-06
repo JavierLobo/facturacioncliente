@@ -1,24 +1,16 @@
 package com.javierlobo.clientes.rest.resource;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,18 +32,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javierlobo.clientes.logic.ICrudClienteService;
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.rest.services.IUploadFileService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200"}) // , methods= {RequestMethod.GET} // RequestMethod.POSt
 @RequestMapping("/api")
 public class CrudClientesResource {
 
-	// ToDo: El log no va, hay que averiguar porqué.
-	// private final Logger log = (Logger) LoggerFactory.logger(CrudClientesResource.class);
-	
 	@Autowired
 	private ICrudClienteService crudClienteService;
 
+	@Autowired
+	private IUploadFileService uploadFileService;
+	
 	@GetMapping("/clientes")
 	public List<ClienteEntity> index() {
 		return crudClienteService.findAll();	
@@ -147,9 +140,11 @@ public class CrudClientesResource {
 		Map<String, Object> response = new HashMap<>();
 
 		try {
+			ClienteEntity cliente = crudClienteService.findById(id);
+			String nombreFotoAnterior = cliente.getFoto();
 			
 			// Eliminamos la imagen anterior antes de guardar
-//			eliminarImagen(id);
+			uploadFileService.eliminar(nombreFotoAnterior);
 			crudClienteService.delete(id);
 			
 		} catch (DataAccessException e) {
@@ -170,12 +165,10 @@ public class CrudClientesResource {
 		ClienteEntity cliente = crudClienteService.findById(id);
 		
 		if (!archivo.isEmpty()) {
-			String nombreArchivo =UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
+			String nombreArchivo = null;
 			
-			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-//			log.info(rutaArchivo.toString());
 			try {
-				Files.copy(archivo.getInputStream(), rutaArchivo);
+				nombreArchivo = uploadFileService.copiar(archivo);
 				
 			} catch (IOException e) {
 				response.put("mensaje", "Error al subir la imagen del cliente " + nombreArchivo);
@@ -183,8 +176,10 @@ public class CrudClientesResource {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
+			String nombreFotoAnterior = cliente.getFoto();
+			
 			// Eliminamos la imagen anterior antes de guardar
-			eliminarImagen(id);
+			uploadFileService.eliminar(nombreFotoAnterior);
 
 			// Guardamos la imagen junto el objeto
 			cliente.setFoto(nombreArchivo);
@@ -199,65 +194,24 @@ public class CrudClientesResource {
 	
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
-		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
-//		log.info(rutaArchivo.toString());
 
 		Resource recurso = null;
-		
 		try {
-			recurso = new UrlResource(rutaArchivo.toUri());
+			recurso = uploadFileService.cargar(nombreFoto);
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		
-		if(!recurso.exists() && !recurso.isReadable()) {
-			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("notUser64x64.png").toAbsolutePath();
-			
-			try {
-				recurso = new UrlResource(rutaArchivo.toUri());
-				
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-			
-			// log.error("Error no se pudo cargar la imagen: " + nombreFoto);
-		}
-		
 		HttpHeaders cabecera = new HttpHeaders();
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION,  "attachment; filename=\"" + recurso.getFilename() + "\"");
-		
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.CREATED);
 	}
 	
 	// ---------------------------------------------
 	// METODOS PRIVADOS
-	// ---------------------------------------------
-	
-	
-	/**
-	 * Elimina una imagen de asociada a un registro
-	 * 
-	 * @param id Identificador del registro
-	 */
-	private void eliminarImagen(Long id) {
-		ClienteEntity cliente = crudClienteService.findById(id);
-		
-		String nombreFotoAnterior = cliente.getFoto();
-		
-		if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
-			Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFotoAnterior).toAbsolutePath();
-			File archivoFotoAnterior = rutaFotoAnterior.toFile();
-			
-			if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
-				archivoFotoAnterior.delete();
-				
-			}
-		} 
-	}
-	
-	
+	// ---------------------------------------------	
 	private Map<String, Object> validateRequestBody(BindingResult result) {
 		Map<String, Object> response = new HashMap<>();
 
