@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteService } from './cliente.service';
+import { ModalService } from './detalle/modal.service';
 import { Cliente } from './Cliente';
 import { TitleBar } from './TitleBar';
 import { TITLEBAR } from './TitleBar.json';
@@ -18,11 +19,13 @@ export class ClienteComponent implements OnInit {
 
   titleBar: TitleBar[];
   clientes: Cliente[];
-  
+  clienteSeleccionado: Cliente;
+
   paginador: any;
 
   constructor(private clienteService: ClienteService,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute,
+              private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe( params => {
@@ -82,4 +85,10 @@ export class ClienteComponent implements OnInit {
       }
     })
   }
+
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
+  }
+
 }
