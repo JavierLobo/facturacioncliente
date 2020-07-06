@@ -46,7 +46,8 @@ import com.javierlobo.clientes.persistence.entity.ClienteEntity;
 @RequestMapping("/api")
 public class CrudClientesResource {
 
-	private final Logger log = (Logger) LoggerFactory.logger(CrudClientesResource.class);
+	// ToDo: El log no va, hay que averiguar porqué.
+	// private final Logger log = (Logger) LoggerFactory.logger(CrudClientesResource.class);
 	
 	@Autowired
 	private ICrudClienteService crudClienteService;
@@ -148,7 +149,7 @@ public class CrudClientesResource {
 		try {
 			
 			// Eliminamos la imagen anterior antes de guardar
-			eliminarImagen(id);
+//			eliminarImagen(id);
 			crudClienteService.delete(id);
 			
 		} catch (DataAccessException e) {
@@ -172,7 +173,7 @@ public class CrudClientesResource {
 			String nombreArchivo =UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
 			
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-			log.info(rutaArchivo.toString());
+//			log.info(rutaArchivo.toString());
 			try {
 				Files.copy(archivo.getInputStream(), rutaArchivo);
 				
@@ -199,7 +200,7 @@ public class CrudClientesResource {
 	@GetMapping("/uploads/img/{nombreFoto:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
-		log.info(rutaArchivo.toString());
+//		log.info(rutaArchivo.toString());
 
 		Resource recurso = null;
 		
@@ -211,7 +212,16 @@ public class CrudClientesResource {
 		}
 		
 		if(!recurso.exists() && !recurso.isReadable()) {
-			throw new RuntimeException("Error no se pudo cargar la imagen: " + nombreFoto);
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("notUser64x64.png").toAbsolutePath();
+			
+			try {
+				recurso = new UrlResource(rutaArchivo.toUri());
+				
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			
+			// log.error("Error no se pudo cargar la imagen: " + nombreFoto);
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();
