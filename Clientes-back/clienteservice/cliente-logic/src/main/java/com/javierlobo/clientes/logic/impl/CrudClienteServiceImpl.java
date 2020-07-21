@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.javierlobo.clientes.logic.ICrudClienteService;
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.persistence.entity.RegionEntity;
 import com.javierlobo.clientes.persistence.repository.IClienteRepository;
 
 @Service
@@ -45,6 +46,13 @@ public class CrudClienteServiceImpl implements ICrudClienteService {
 	@Transactional
 	public void delete(Long id) {
 		clienteRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<RegionEntity> findAllRegiones() {
+		// TODO Auto-generated method stub
+		return clienteRepository.findAllRegiones();
 	}
 	
 }

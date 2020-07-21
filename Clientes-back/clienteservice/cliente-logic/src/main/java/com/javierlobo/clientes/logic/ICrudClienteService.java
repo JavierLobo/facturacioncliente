@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.persistence.entity.RegionEntity;
 
 public interface ICrudClienteService {
 
@@ -19,4 +20,6 @@ public interface ICrudClienteService {
 	
 	public void delete(Long id);
 	
+	public List<RegionEntity> findAllRegiones();
+
 }

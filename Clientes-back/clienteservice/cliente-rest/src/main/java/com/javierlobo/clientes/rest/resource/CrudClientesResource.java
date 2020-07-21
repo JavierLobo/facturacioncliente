@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.javierlobo.clientes.logic.ICrudClienteService;
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.persistence.entity.RegionEntity;
 import com.javierlobo.clientes.rest.services.IUploadFileService;
 
 @RestController
@@ -121,6 +122,7 @@ public class CrudClientesResource {
 			clienteActual.setApellido(cliente.getApellido());
 			clienteActual.setEmail(cliente.getEmail());
 			clienteActual.setCreateAt(cliente.getCreateAt());
+			clienteActual.setRegion(cliente.getRegion());
 			clienteUpdate = crudClienteService.save(clienteActual);
 			
 		} catch (DataAccessException e) {
@@ -208,6 +210,13 @@ public class CrudClientesResource {
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/clientes/regiones")
+	public List<RegionEntity> listarRegiones() {
+		return crudClienteService.findAllRegiones();
+	}
+	
+	
 	
 	// ---------------------------------------------
 	// METODOS PRIVADOS
