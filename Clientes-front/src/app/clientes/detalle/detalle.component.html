@@ -18,6 +18,7 @@
                               <li class="list-group-item">{{cliente.apellido}}</li>
                               <li class="list-group-item">{{cliente.email}}</li>
                               <li class="list-group-item">{{cliente.createAt | date:"fullDate" }}</li>
+                              <li class="list-group-item">{{cliente.region.nombre}}</li>
                           </ul>
       
                           <div class="input-group">
@@ -26,7 +27,7 @@
                                       type="file" class="custom-file-input" id="inputGroupFile04">
                                 <label class="custom-file-label" for="inputGroupFile04">Elegir una imagen</label>
                               </div>
-                  
+                              
                               <div class="input-group-append">
                                 <button (click)="subirFoto()" [disabled]="!fotoSeleccionada"
                                       class="btn btn-outline-secondary" type="button">Subir</button>
