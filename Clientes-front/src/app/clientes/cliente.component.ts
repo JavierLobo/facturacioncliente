@@ -4,7 +4,7 @@ import { ModalService } from './detalle/modal.service';
 import { Cliente } from './Cliente';
 import { TitleBar } from './TitleBar';
 import { TITLEBAR } from './TitleBar.json';
-import { CLIENTES } from './clientes.json';
+//import { CLIENTES } from './clientes.json';
 import { tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
