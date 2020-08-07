@@ -1,25 +1,21 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.javierlobo</groupId>
-    <artifactId>clienteservice</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>cliente-logic</artifactId>
-  <name>cliente-logic</name>
-  <url>http://maven.apache.org</url>
-  
-  
-  <groupId>com.javierlobo.clienteservice</groupId>
-  
-  
-  	<properties>
-    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	</properties>
-  
-  	<dependencies>  	
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>cliente-logic</artifactId>
+	<name>cliente-logic</name>
+	<url>http://maven.apache.org</url>
+	<groupId>com.javierlobo.clienteservice</groupId>
+
+	<parent>
+		<groupId>com.javierlobo</groupId>
+		<artifactId>clienteservice</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
 		<dependency>
 			<groupId>com.javierlobo.clienteservice</groupId>
 			<artifactId>cliente-persistence</artifactId>
@@ -27,14 +23,10 @@
 		</dependency>
 
 		<dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <scope>test</scope>
-    	</dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-  
-  	<organization>
-  		<name>Javier Lobo</name>
-  		<url>www.linkedin.com/in/javixulobo</url>
-  	</organization>
+
 </project>
