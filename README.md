@@ -4,7 +4,7 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 ## Front-End
 * Angular 10+, html5, css, javascript y typescript
 ## Back-End
-* Spring MVC, API REST, Spring JPA, Hibernate, MariaDB
+* Spring Security OAuth2 y JWT (autenticación y autorización basada en token), Spring MVC, API REST, Spring JPA, Hibernate, MariaDB
 ## Otras
 * Eclipse, Visual Studio Code, PostMan, DBeaver, Git, Fork
 # Lista de cambios
@@ -14,7 +14,7 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 * Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.
 * Creación de la Vista Login
 ### Back-End
-* 
+* Añadido el JWT y el OAuth2 para la gestión de los usuarios y la gestion de la seguridad.
 ## ___29/07/2020___
 ---
 ### **|> FRONT END**

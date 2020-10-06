@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,6 +57,7 @@ public class CrudClientesResource {
 		return crudClienteService.findAll(PageRequest.of(page, 4));
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -79,6 +81,7 @@ public class CrudClientesResource {
 		return new ResponseEntity<ClienteEntity>(cliente, HttpStatus.OK);		
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@PostMapping("/clientes") // POST PARA CREAR
 	public ResponseEntity<?> create(@Valid @RequestBody ClienteEntity cliente, BindingResult result) {
 		ClienteEntity clienteNew = null;
@@ -101,7 +104,8 @@ public class CrudClientesResource {
 		response.put("cliente", clienteNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-
+	
+	@Secured("ROLE_ADMIN")
 	@PutMapping("/clientes/{id}") // PUT PARA ACTUALIZAR
 	public ResponseEntity<?> update(@Valid @RequestBody ClienteEntity cliente, BindingResult result, @PathVariable Long id) {
 		ClienteEntity clienteActual = crudClienteService.findById(id);
@@ -137,6 +141,7 @@ public class CrudClientesResource {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
@@ -160,6 +165,7 @@ public class CrudClientesResource {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
 		
@@ -211,6 +217,7 @@ public class CrudClientesResource {
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.CREATED);
 	}
 	
+	@Secured("ROLE_ADMIN")
 	@GetMapping("/clientes/regiones")
 	public List<RegionEntity> listarRegiones() {
 		return crudClienteService.findAllRegiones();
