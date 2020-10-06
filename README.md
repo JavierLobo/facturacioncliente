@@ -7,23 +7,16 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 * Spring MVC, API REST, Spring JPA, Hibernate, MariaDB
 ## Otras
 * Eclipse, Visual Studio Code, PostMan, DBeaver, Git, Fork
-
 # Lista de cambios
-
 ## ___XX/10/2020___
 ---
-
 ### Front-End
-* 
-* 
-
+* Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.
+* Creación de la Vista Login
 ### Back-End
 * 
-* 
-
 ## ___29/07/2020___
 ---
-
 ### **|> FRONT END**
 * **Vista Cliente**
     * Creación de la vista del formulario clientes para crear nuevos registros de clientes o modificar los existentes.

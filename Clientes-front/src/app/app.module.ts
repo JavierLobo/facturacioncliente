@@ -21,6 +21,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import localeES from '@angular/common/locales/es';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
+import { LoginComponent } from './usuarios/login.component';
 
 registerLocaleData(localeES, 'es');
 
@@ -30,7 +31,7 @@ const routes: Routes = [
   {path: 'clientes', component: ClienteComponent},
   {path: 'clientes/page/:page', component: ClienteComponent},
   {path: 'clientes/form', component: FormComponent},
-  {path: 'clientes/form/:id', component: FormComponent}
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({
@@ -42,7 +43,8 @@ const routes: Routes = [
     ClienteComponent,
     FormComponent,
     PaginatorComponent,
-    DetalleComponent
+    DetalleComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
