@@ -12,7 +12,17 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 ---
 ### Front-End
 * Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.
-* Creación de la Vista Login
+* Creacion de los componentes para el login y su vista formulario
+* Manejo de errores 401 y 403 junto a sus redirecciones
+* Creacion de las clases para el usuario
+* Guardado del token y los datos del usuario en el sessionStorage
+* Gestion de usuario logeado
+* Envio del token al backend
+* Ocultacion de controles en la interfaz
+* Creacion de la funcionalidad de inicio y cierre de sesion
+* Gestion de rutas con Guard
+* Validación del token con fecha de expiracion
+* Interceptores para cabeceras de autorizacion y para los codigos html 401 y 403
 ### Back-End
 * Añadido el JWT y el OAuth2 para la gestión de los usuarios y la gestion de la seguridad.
 ## ___29/07/2020___

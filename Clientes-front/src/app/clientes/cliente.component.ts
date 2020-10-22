@@ -8,6 +8,7 @@ import { TITLEBAR } from './TitleBar.json';
 import { tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../usuarios/auth.service';
 
 @Component({
   selector: 'app-cliente',
@@ -25,6 +26,7 @@ export class ClienteComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
               private activatedRoute: ActivatedRoute,
+              public authService: AuthService,
               private modalService: ModalService) { }
 
   ngOnInit(): void {

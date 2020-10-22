@@ -39,7 +39,6 @@ export class FormComponent implements OnInit {
   }
 
   public create(): void {
-    console.log(this.cliente);
     this.clienteService.create(this.cliente)
       .subscribe( cliente  => {
         this.router.navigate(['/clientes'])
@@ -54,7 +53,6 @@ export class FormComponent implements OnInit {
   }
 
   update(): void {
-    console.log(this.cliente);
     this.clienteService.update(this.cliente)
       .subscribe( json => {
         this.router.navigate(['/clientes'])

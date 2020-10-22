@@ -2,9 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Cliente } from '../Cliente';
 import { ClienteService } from '../cliente.service';
 import { ActivatedRoute } from '@angular/router';
-import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from './modal.service';
+import { AuthService } from '../../usuarios/auth.service';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'detalle-cliente',
@@ -22,6 +24,7 @@ export class DetalleComponent implements OnInit {
 
   constructor(private clienteService: ClienteService, 
     private activatedRourte:  ActivatedRoute,
+    public authService: AuthService,
     public modalService: ModalService) { }
 
   ngOnInit(): void {  }
@@ -30,8 +33,6 @@ export class DetalleComponent implements OnInit {
     this.fotoSeleccionada = event.target.files[0];
     this.progreso = 0;
 
-    console.log(this.fotoSeleccionada);
-
     if(this.fotoSeleccionada.type.indexOf('image') < 0) {
       Swal.fire('Error seleccionar imagen: ', 'El archivo debe ser del tipo imagen', 'error');
       this.fotoSeleccionada = null;
@@ -39,7 +40,6 @@ export class DetalleComponent implements OnInit {
   }
 
   subirFoto() {
-
     if(!this.fotoSeleccionada) {
       Swal.fire('Error Upload: ', 'Debe seleccionar una foto', 'error');
 
@@ -55,8 +55,6 @@ export class DetalleComponent implements OnInit {
           this.modalService.notificarUpload.emit(this.cliente);
           Swal.fire('La foto se ha subido completamente!', response.mensaje, 'success');
         }
-
-        // this.cliente = cliente;
       });
     }
   }
@@ -66,6 +64,5 @@ export class DetalleComponent implements OnInit {
     this.fotoSeleccionada = null;
     this.progreso = 0;
   }
-
 
 }
