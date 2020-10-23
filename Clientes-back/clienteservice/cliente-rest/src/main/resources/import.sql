@@ -9,7 +9,7 @@ INSERT INTO regiones (id, nombre) values (7,'Oceanía');
 INSERT INTO regiones (id, nombre) values (8,'Antártida');
 
 /* Populate tabla clientes */
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(1, 'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
+INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(1, 'Andres', 'Guzman', 'profesor@bolsadeideas.com', '2018-01-01');
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(2, 'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(4, 'Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03');
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(4, 'Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04');
@@ -24,7 +24,7 @@ INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(7, '
 
 /* Creamos los usuarios con sus roles */
 INSERT INTO usuarios (username, password, enabled, nombre, apellido, email) values ('andres', '$2a$10$ECikaFeWETI16hYWaEWGxuulwnqo8RTfdaAOt/0U23.GN/LR8uRLu', 1, 'Fulanitez', 'De la Cortaza', 'fulanitezdelacortaza@google.com');
-INSERT INTO usuarios (username, password, enabled, nombre, apellido, email) values ('admin', '$2a$10$udPxHz5g0FumnqWXYiFfceV8lNavTQdPna2hX5FNyNLkZbPasaW3W', 1, 'Mentanez', 'Butifarrez Moñigez', 'mentanez.butifarrezmoñigez@hotmail.com');
+INSERT INTO usuarios (username, password, enabled, nombre, apellido, email) values ('admin', '$2a$10$udPxHz5g0FumnqWXYiFfceV8lNavTQdPna2hX5FNyNLkZbPasaW3W', 1, 'Mentanez', 'Butifarrez Monigez', 'mentanez.butifarrezmonigez@hotmail.com');
 
 INSERT INTO roles (nombre) values ('ROLE_USER');
 INSERT INTO roles (nombre) values ('ROLE_ADMIN');
