@@ -9,8 +9,7 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 * Eclipse, Visual Studio Code, PostMan, DBeaver, Git, Fork
 # Lista de cambios
 ## ___23/10/2020___
----
-### Front-End
+### **|> FRONT END**
 * Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.
 * Creacion de los componentes para el login y su vista formulario
 * Manejo de errores 401 y 403 junto a sus redirecciones
@@ -23,10 +22,9 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 * Gestion de rutas con Guard
 * Validación del token con fecha de expiracion
 * Interceptores para cabeceras de autorizacion y para los codigos html 401 y 403
-### Back-End
+### **|> BACK END**
 * Añadido el JWT y el OAuth2 para la gestión de los usuarios y la gestion de la seguridad.
 ## ___29/07/2020___
----
 ### **|> FRONT END**
 * **Vista Cliente**
     * Creación de la vista del formulario clientes para crear nuevos registros de clientes o modificar los existentes.
