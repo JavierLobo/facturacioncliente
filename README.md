@@ -8,7 +8,7 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 ## Otras
 * Eclipse, Visual Studio Code, PostMan, DBeaver, Git, Fork
 # Lista de cambios
-## ___XX/10/2020___
+## ___23/10/2020___
 ---
 ### Front-End
 * Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.
