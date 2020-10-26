@@ -10,15 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.javierlobo.clientes.logic.ICrudClienteService;
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.persistence.entity.FacturaEntity;
+import com.javierlobo.clientes.persistence.entity.ProductoEntity;
 import com.javierlobo.clientes.persistence.entity.RegionEntity;
 import com.javierlobo.clientes.persistence.repository.IClienteRepository;
+import com.javierlobo.clientes.persistence.repository.IFacturaRepository;
+import com.javierlobo.clientes.persistence.repository.IProductoRepository;
 
 @Service
 public class CrudClienteServiceImpl implements ICrudClienteService {
 
 	@Autowired
 	private IClienteRepository clienteRepository;
+	
+	@Autowired
+	private IFacturaRepository facturaRepository;
 		
+	@Autowired
+	private IProductoRepository productoRepository;
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ClienteEntity> findAll() {
@@ -51,8 +61,31 @@ public class CrudClienteServiceImpl implements ICrudClienteService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<RegionEntity> findAllRegiones() {
-		// TODO Auto-generated method stub
 		return clienteRepository.findAllRegiones();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public FacturaEntity findFacturaById(Long id) {
+		return facturaRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public FacturaEntity saveFactura(FacturaEntity factura) {
+		return facturaRepository.save(factura);
+	}
+
+	@Override
+	@Transactional
+	public void deleteFacturaById(Long id) {
+		facturaRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProductoEntity> findProductoByNombre(String term) {
+		return productoRepository.findByNombre(term);
 	}
 	
 }

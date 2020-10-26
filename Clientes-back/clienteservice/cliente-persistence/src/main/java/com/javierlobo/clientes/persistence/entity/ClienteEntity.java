@@ -2,7 +2,9 @@ package com.javierlobo.clientes.persistence.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -55,23 +59,42 @@ public class ClienteEntity implements Serializable {
 	@JoinColumn(name = "region_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private RegionEntity region;
-
+	
+	@JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler"})
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "cliente", cascade=CascadeType.ALL)
+	private List<FacturaEntity> facturas;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-//	@PrePersist
-//	public void prePersist() {
-//		this.createAt = new Date();
-//	}
+	@PrePersist
+	public void prePersist() {
+		this.createAt = new Date();
+	}
 
 	public ClienteEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ClienteEntity(Long id, String nombre, String apellido, String email, Date createAt, String foto) {
+	/**
+	 * @param id
+	 * @param nombre
+	 * @param apellido
+	 * @param email
+	 * @param createAt
+	 * @param foto
+	 * @param region
+	 * @param facturas
+	 */
+	public ClienteEntity(Long id,
+			@NotEmpty(message = "no puede estar vacio") @Size(min = 4, max = 12, message = "el tamaño tiene que estar entre 4 y 12") String nombre,
+			@NotEmpty(message = "no puede estar vacio") String apellido,
+			@NotEmpty(message = "no puede estar vacio") @Email(message = "no es una dirección de correo bien formada") String email,
+			@NotNull(message = "No puede estar vacío") Date createAt, String foto,
+			@NotNull(message = "La región no debe estar vacía") RegionEntity region, List<FacturaEntity> facturas) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -79,6 +102,8 @@ public class ClienteEntity implements Serializable {
 		this.email = email;
 		this.createAt = createAt;
 		this.foto = foto;
+		this.region = region;
+		this.facturas = facturas;
 	}
 	
 	public Long getId() {
@@ -135,5 +160,13 @@ public class ClienteEntity implements Serializable {
 
 	public void setRegion(RegionEntity region) {
 		this.region = region;
+	}
+
+	public List<FacturaEntity> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<FacturaEntity> facturas) {
+		this.facturas = facturas;
 	}
 }

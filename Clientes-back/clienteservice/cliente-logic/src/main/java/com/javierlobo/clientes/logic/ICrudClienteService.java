@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.javierlobo.clientes.persistence.entity.ClienteEntity;
+import com.javierlobo.clientes.persistence.entity.FacturaEntity;
+import com.javierlobo.clientes.persistence.entity.ProductoEntity;
 import com.javierlobo.clientes.persistence.entity.RegionEntity;
 
 public interface ICrudClienteService {
@@ -21,5 +23,13 @@ public interface ICrudClienteService {
 	public void delete(Long id);
 	
 	public List<RegionEntity> findAllRegiones();
+	
+	public FacturaEntity findFacturaById(Long id);
+	
+	public FacturaEntity saveFactura(FacturaEntity factura);
+	
+	public void deleteFacturaById(Long id);
+	
+	public List<ProductoEntity> findProductoByNombre(String term);
 
 }
