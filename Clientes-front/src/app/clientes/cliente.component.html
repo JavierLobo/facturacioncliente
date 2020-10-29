@@ -10,8 +10,8 @@
             class="btn btn-rounded btn-primary" type="button">Crear Cliente</button>
       </div>
 
-      <div class="alert alert-info"
-        *ngIf="clientes?.length == 0">No hay registros en la base de datos!!
+      <div *ngIf="clientes?.length <= 0" class="alert alert-info">
+        No hay clientes registrados!!
       </div>
       
       <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
