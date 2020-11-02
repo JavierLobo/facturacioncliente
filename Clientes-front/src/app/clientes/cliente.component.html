@@ -24,6 +24,7 @@
                 <th>{{ title.apellido }}</th>
                 <th>{{ title.email }}</th>
                 <th>{{ title.createAt }}</th>
+                <th>Crear factura</th>
                 <th *ngIf="authService.hasRole('ROLE_ADMIN')">{{ title.editar }}</th>
                 <th *ngIf="authService.hasRole('ROLE_ADMIN')">{{ title.eliminar }}</th>
               </tr>
@@ -43,6 +44,12 @@
                     <td>{{ cliente.apellido }}</td>
                     <td>{{ cliente.email }}</td>
                     <td>{{ cliente.createAt }}</td>
+                    
+                    <td *ngIf="authService.hasRole('ROLE_ADMIN')">
+                      <button [routerLink]="['/facturas/form', cliente.id]"
+                          type="button" name="nuevo" class="btn btn-success btn-sm">Nuevo</button>
+                    </td>
+
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                       <button type="button" name="button" class="btn btn-primary"
                         [routerLink]="['/clientes/form', cliente.id]">Editar</button>
