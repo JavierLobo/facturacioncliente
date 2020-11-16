@@ -85,7 +85,7 @@ public class CrudClienteServiceImpl implements ICrudClienteService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ProductoEntity> findProductoByNombre(String term) {
-		return productoRepository.findByNombreStartingWithIgnoreCase(term);
+		return productoRepository.findByNombreContaining(term);
 	}
 	
 }
