@@ -21,7 +21,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import localeES from '@angular/common/locales/es';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
@@ -32,6 +31,8 @@ import { TokenInterceptor } from './usuarios/interceptors/TokenInterceptor';
 import { AuthInterceptor }  from './usuarios/interceptors/authInterceptor';
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
 import { FacturasComponent } from './facturas/facturas.component';
+
+import localeES from '@angular/common/locales/es';
 
 registerLocaleData(localeES, 'es');
 
