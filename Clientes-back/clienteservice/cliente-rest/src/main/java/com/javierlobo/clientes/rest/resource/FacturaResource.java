@@ -39,6 +39,7 @@ public class FacturaResource {
 	}
 	
 	@GetMapping("/facturas/filtrar-productos/{term}")
+	@ResponseStatus(HttpStatus.OK)
 	public List<ProductoEntity> filtrarProductos(@PathVariable String term) {
 		return clienteService.findProductoByNombre(term);
 	}
