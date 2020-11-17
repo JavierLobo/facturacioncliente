@@ -12,7 +12,7 @@
               <div class="container">
                   <div class="row">
                       <div class="col-sm">
-      
+
                           <ul *ngIf="cliente" class="list-group text-dark mb-3">
                               <li class="list-group-item active">{{cliente.nombre}}</li>
                               <li class="list-group-item">{{cliente.apellido}}</li>
@@ -20,41 +20,41 @@
                               <li class="list-group-item">{{cliente.createAt | date:"fullDate" }}</li>
                               <li class="list-group-item">{{cliente.region.nombre}}</li>
                           </ul>
-      
+
                           <div class="input-group mb-3" *ngIf="authService.hasRole('ROLE_USER')">
                               <div class="custom-file">
                                 <input (change)="seleccionarFoto($event)"
                                       type="file" class="custom-file-input" id="inputGroupFile04">
                                 <label class="custom-file-label" for="inputGroupFile04">Elegir una imagen</label>
                               </div>
-                              
+
                               <div class="input-group-append">
                                 <button (click)="subirFoto()" [disabled]="!fotoSeleccionada"
                                       class="btn btn-outline-secondary" type="button">Subir</button>
                               </div>
                           </div>
-                          
+
                           <div *ngIf="progreso > 0" class="progress">
                               <div class="progress-bar progress-bar-striped" role="progressbar" [ngStyle]="{width: progreso+'%'}" attr.aria-valuenow="{{progreso}}" aria-valuemin="0" aria-valuemax="100">
                                   {{progreso}}%
                               </div>
                           </div>
                       </div>
-      
+
                       <div class="col-sm">
-                          <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" 
+                          <img *ngIf="cliente?.foto" src="http://localhost:8080/api/uploads/img/{{cliente.foto}}"
                               alt="{{cliente.foto}}" class="img-thumbnail rounded">
-      
+
                       </div>
                   </div>
-                  
-                  <div class="row">
+
+                  <div class="row"  *ngIf="authService.hasRole('ROLE_ADMIN')">
                     <button [routerLink]="['/facturas/form', cliente.id]"
                         type="button" name="nuevo" class="btn btn-success btn-sm">Nuevo</button>
                   </div>
 
                   <div class="row">
-                    
+
                     <table class="table table-bordered table-striped my-4">
                       <thead>
                         <tr>
@@ -63,11 +63,11 @@
                           <th>fecha</th>
                           <th>total</th>
                           <th>detalle</th>
-                          <th>eliminar</th>
+                          <th *ngIf="authService.hasRole('ROLE_ADMIN')">eliminar</th>
                         </tr>
-                      </thead>   
-                      
-                      <tbody  *ngIf="cliente.facturas.length > 0"> 
+                      </thead>
+
+                      <tbody  *ngIf="cliente.facturas.length > 0">
                         <tr *ngFor="let factura of cliente.facturas">
                           <td>{{factura.id}}</td>
                           <td>{{factura.descripcion}}</td>
@@ -77,19 +77,19 @@
                               <button [routerLink] = "['/facturas', factura.id]"
                                   class="btn btn-primary btn-sm" type="button">Ver</button>
                           </td>
-                          <td>
+                          <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                             <button (click)="delete(factura)"
-                              class="btn btn-danger btn-sm" type="button">eliminar</button>
+                                type="button" name="eliminar" class="btn btn-danger btn-sm">X</button>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                    
-                    <div *ngIf="cliente.facturas.length == 0" 
+
+                    <div *ngIf="cliente.facturas.length == 0"
                           class="container alert alert-info alert-dismissible fade show my-4">
-                      <strong>No hay facturas emitidas!!</strong> Pulsa el boton 
+                      <strong>No hay facturas emitidas!!</strong> <span *ngIf="authService.hasRole('ROLE_ADMIN')"> Pulsa el boton
                       <button [routerLink]="['/facturas/form', cliente.id]"
-                          type="button" name="nuevo" class="btn btn-success btn-sm">Nuevo</button> para emitir una.
+                          type="button" name="nuevo" class="btn btn-success btn-sm">Nuevo</button> para emitir una.</span>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>

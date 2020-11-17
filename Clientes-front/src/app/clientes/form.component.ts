@@ -18,17 +18,13 @@ export class FormComponent implements OnInit {
   errores: string[]; // es posible que de error por el private
 
   constructor(
-      private clienteService: ClienteService, 
-      private router: Router, 
+      private clienteService: ClienteService,
+      private router: Router,
       private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.cargarCliente()
-  }
-
-  cargarCliente(): void {
     this.activatedRoute.params.subscribe(params => {
-      let id = params['id']
+      let id = +params.get('id');
 
       if (id) {
         this.clienteService.getCliente(id).subscribe( (cliente) => this.cliente = cliente)
@@ -53,6 +49,9 @@ export class FormComponent implements OnInit {
   }
 
   update(): void {
+    console.log(this.cliente);
+
+    this.cliente.facturas = null;
     this.clienteService.update(this.cliente)
       .subscribe( json => {
         this.router.navigate(['/clientes'])
@@ -69,7 +68,7 @@ export class FormComponent implements OnInit {
     if (o1 === undefined && o2 === undefined) {
       return true;
     }
-    
+
     return o1 == null || o1 === undefined || o2 == null || o2 === undefined? false: o1.id===o2.id;
   }
 }

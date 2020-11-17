@@ -6,14 +6,14 @@
       <h5 class="card-title">{{ subTitle }}</h5>
 
       <div class="my-2 text-left">
-        <button *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink] = "['/clientes/form']"
+        <button *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/clientes/form']"
             class="btn btn-rounded btn-primary" type="button">Crear Cliente</button>
       </div>
 
       <div *ngIf="clientes?.length <= 0" class="alert alert-info">
         No hay clientes registrados!!
       </div>
-      
+
       <paginator-nav *ngIf="paginador" [paginador] = "paginador"></paginator-nav>
 
       <table class="table table-bordered table-stripped" *ngIf="clientes?.length > 0">
@@ -24,38 +24,38 @@
                 <th>{{ title.apellido }}</th>
                 <th>{{ title.email }}</th>
                 <th>{{ title.createAt }}</th>
-                <th>Crear factura</th>
+                <th *ngIf="authService.hasRole('ROLE_ADMIN')">Crear factura</th>
                 <th *ngIf="authService.hasRole('ROLE_ADMIN')">{{ title.editar }}</th>
                 <th *ngIf="authService.hasRole('ROLE_ADMIN')">{{ title.eliminar }}</th>
               </tr>
-            </thead> 
+            </thead>
             <tbody>
                 <tr *ngFor="let cliente of clientes">
                     <td *ngIf="authService.hasRole('ROLE_USER')">
-                      <img (click)="abrirModal(cliente)" *ngIf="cliente?.foto" 
-                            src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}" 
+                      <img (click)="abrirModal(cliente)" *ngIf="cliente?.foto"
+                            src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}"
                             class="img-thumbnail rounded" style="width: 64px; cursor:pointer;">
 
-                      <img (click)="abrirModal(cliente)" *ngIf="!cliente?.foto" 
-                            src="http://localhost:8080/images/notUser64x64.png" 
+                      <img (click)="abrirModal(cliente)" *ngIf="!cliente?.foto"
+                            src="http://localhost:8080/images/notUser64x64.png"
                             alt="{{cliente.foto}}" class="img-thumbnail rounded" style="width: 64px; cursor:pointer;">
                     </td>
                     <td>{{ cliente.nombre }}</td>
-                    <td>{{ cliente.apellido }}</td>
+                    <td>{{ cliente.apellido | uppercase }}</td>
                     <td>{{ cliente.email }}</td>
-                    <td>{{ cliente.createAt }}</td>
-                    
+                    <td>{{ cliente.createAt | date:"EEEE dd, MMMM yyyy" }}</td>
+
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')">
                       <button [routerLink]="['/facturas/form', cliente.id]"
                           type="button" name="nuevo" class="btn btn-success btn-sm">Nuevo</button>
                     </td>
 
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')">
-                      <button type="button" name="button" class="btn btn-primary"
-                        [routerLink]="['/clientes/form', cliente.id]">Editar</button>
+                      <button [routerLink]="['/clientes/form', cliente.id]"
+                          type="button" name="editar" class="btn btn-primary btn-sm">Editar</button>
                     </td>
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')">
-                      <button type="button" name="eliminar" class="btn btn-danger"
+                      <button type="button" name="eliminar" class="btn btn-danger btn-sm"
                         (click)='delete(cliente)'>X</button>
                     </td>
                 </tr>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {FormControl} from '@angular/forms';
+
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { Observable } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators';
@@ -10,6 +12,9 @@ import { FacturaService } from './services/factura.service';
 
 import { Factura }  from './models/factura';
 import { Producto }  from './models/producto';
+import { ItemFactura }  from './models/item-factura';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facturas',
@@ -27,7 +32,8 @@ export class FacturasComponent implements OnInit {
   constructor(
       private clienteService: ClienteService,
       private facturaService: FacturaService,
-      private activatedRoute: ActivatedRoute) { }
+      private activatedRoute: ActivatedRoute,
+      private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe( params => {
@@ -50,5 +56,78 @@ export class FacturasComponent implements OnInit {
 
   mostrarNombre(producto?: Producto): string | undefined {
     return producto? producto.nombre: undefined;
+  }
+
+  seleccionarProducto(event: MatAutocompleteSelectedEvent): void {
+    let producto = event.option.value as Producto;
+    console.log(producto);
+
+    if (this.existeItem(producto.id)) {
+      this.incrementaCantidad(producto.id);
+
+    } else {
+      let nuevoItem = new ItemFactura();
+      nuevoItem.producto = producto;
+      this.factura.items.push(nuevoItem);
+    }
+
+    this.autoCompleteControl.setValue('');
+    event.option.focus();
+    event.option.deselect();
+  }
+
+  actualizarCantidad(id: number, event: any): void {
+    let cantidad: number = event.target.value as number;
+
+    if (cantidad == 0) {
+      return this.eliminarItemFactura(id);
+    }
+
+    this.factura.items = this.factura.items.map((item: ItemFactura) => {
+      if (id === item.producto.id) {
+        item.cantidad = cantidad;
+      }
+      return item;
+    });
+  }
+
+  existeItem(id: number): boolean {
+    let existe = false;
+
+    this.factura.items.forEach((item: ItemFactura) => {
+      if (id === item.producto.id) {
+        existe = true;
+      }
+    });
+    return existe;
+  }
+
+  incrementaCantidad(id: number): void {
+    this.factura.items = this.factura.items.map((item: ItemFactura) => {
+      if (id === item.producto.id) {
+        ++item.cantidad;
+      }
+      return item;
+    });
+  }
+
+  eliminarItemFactura(id: number): void {
+    this.factura.items = this.factura.items.filter((item: ItemFactura) => id != item.producto.id);
+  }
+
+  create(facturaForm): void {
+    console.log(this.factura);
+
+    if (this.factura.items.length == 0) {
+      this.autoCompleteControl.setErrors({ 'invalid': true });
+    }
+
+    if (facturaForm.form.valid && this.factura.items.length > 0) {
+      this.facturaService.create(this.factura).subscribe(factura => {
+        swal.fire(this.titulo, `Factura ${factura.descripcion} creada con éxito!`, 'success');
+        this.router.navigate(['/clientes']);
+      });
+    }
+
   }
 }

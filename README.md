@@ -8,6 +8,15 @@ Este proyecto forma parte del curso [Angular & Spring 5: Creando web app full st
 ## Otras
 * Eclipse, Visual Studio Code, PostMan, DBeaver, Git, Fork
 # Lista de cambios
+
+## ___17/11/2020___
+* Añadido sistema de facturación
+### **|> FRONT END**
+* Se ha añadido un boton en la Vista de la Lista de Clientes para la creación de facturas.
+* Se ha modificado la Vista de Detalle de Cliente para incluir las facturas creadas junto a las opcines de ver y eliminar.
+* Se ha añadido la vista facturas para la creación y vista de las facturas y sus líneas.
+### **|> BACK END**
+* Añadido sistema de facturación
 ## ___23/10/2020___
 ### **|> FRONT END**
 * Modificacion de la barra de opciones eliminando los enlaces sobrantes y añadiendo un botón para el login del usuario.

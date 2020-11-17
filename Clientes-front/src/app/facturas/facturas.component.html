@@ -5,7 +5,8 @@
             <a [routerLink] = "['/clientes']"
                 class="btn btn-light btn-xs">&laquo; volver</a>
         </h4>
-        <form>
+
+        <form #facturaForm="ngForm">
             <div *ngIf="factura.cliente" class="form-group row">
                 <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
                 <div class="col-sm-6">
@@ -17,8 +18,11 @@
             <div class="form-group row">
                 <label for="descripcion" class="col-sm-2 col-form-label">descripcion</label>
                 <div class="col-sm-6">
-                    <input [(ngModel)]="factura.descripcion"
-                        type="text" name="descripcion" class="form-control">
+                    <input [(ngModel)]="factura.descripcion" #descripcion="ngModel"
+                        type="text" name="descripcion" class="form-control" required>
+                    <div *ngIf="descripcion.invalid && descripcion.touched || descripcion.invalid && facturaForm.submitted"
+                        class="alert alert-danger">La descripción es requerida.
+                    </div>
                 </div>
             </div>
 
@@ -39,18 +43,56 @@
                          matInput
                          [formControl]="autoCompleteControl"
                          [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
                     <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
                       {{ producto.nombre }}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
+                <div *ngIf="autoCompleteControl.invalid && facturaForm.submitted"
+                      class="alert alert-danger">La factura debe tener líneas.
+                </div>
               </div>
             </div>
 
+            <div *ngIf="factura.items.length == 0"
+                class="alert alert-info my-4">No hay líneas asignadas para la factura. Debe agregar al menos una!
+            </div>
+
+            <table *ngIf="factura.items.length > 0"
+                class="table table-stripe table-hover table-sm">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of factura.items">
+                  <td>{{ item.producto.nombre }}</td>
+                  <td>{{ item.producto.precio }}</td>
+                  <td>
+                    <input value="{{ item.cantidad }}" (change)="actualizarCantidad(item.producto.id, $event)"
+                        type="number" class="form-control col-sm-4">
+                  </td>
+                  <td>{{ item.calcularImporte() }}</td>
+                  <td>
+                    <button (click)="eliminarItemFactura(item.producto.id)"
+                        type="button" class="btn btn-danger btn-sm">X</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3 class="float-right">Gran Total: <span class="badge badge-secondary">{{ factura.calcularGranTotal() }}</span></h3>
+
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <input type="submit" value="Crear Factura" class="btn btn-secondary">
+                    <input (click)="create(facturaForm)" [disabled]="facturaForm.form.invalid || factura.items.length == 0"
+                        type="submit" value="Crear Factura" class="btn btn-secondary">
                 </div>
             </div>
         </form>
